@@ -1,5 +1,18 @@
+import {Transform} from 'stream';
+
+
 const transform = async () => {
-    // Write your code here 
+      try {
+        const transformStream = new Transform({
+            transform(chunk,encoding,callback){
+                const reversed = chunk.toString().split('').reverse().join('')
+                 callback(null, reversed);
+            }
+        })
+       process.stdin.pipe(transformStream).pipe(process.stdout);
+      } catch (err) {
+        throw Error("FS operation failed");
+      }
 };
 
 await transform();
